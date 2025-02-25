@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secura-Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='menu.css') }}">
+</head>
+<body>
+    <h1>Bienvenue {{ admin_email }}</h1>
+    <div class="container">
+        <div class="menu">
+            <form method="post">
+                <button type="submit" name='add' class="btn-login">Ajouter un utilisateur</button>
+                <button type="submit" name='act' class="btn-login">Activités</button>
+                <button type="submit" name='dash' class="btn-login">Dashboard</button>
+            </form>
+        </div>
+    </div>
+    <a href="{{ url_for('logout') }}">Déconnexion</a>
+</body>
+</html>
