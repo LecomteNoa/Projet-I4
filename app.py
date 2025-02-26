@@ -44,6 +44,8 @@ code_secret = int(code_secret)
 
 logging.basicConfig(level=logging.INFO)
 
+uid_badge = None
+
 def promote_to_admin(user_id, user_email, user_password, isAdmin):
     try:
         databases.create_document(
@@ -163,10 +165,10 @@ def add():
     return render_template('add.html')
         
         
-@app.route('/activity')
+@app.route('/uid')
 @login_required
-def activity():
-    return render_template('activity.html')
+def uid():
+    return render_template('uid.html', uid = uid_badge)
 
 
 @app.route('/dashboard')
@@ -183,6 +185,7 @@ def logout():
 
 @app.route('/ttn-webhook', methods=['GET', 'POST'])
 def ttn_webhook():
+    global uid_badge
     try:
         # Lire les données reçues
         data = request.get_json()
@@ -199,6 +202,8 @@ def ttn_webhook():
         hex_payload = decoded_bytes.hex()
         
         filtered_hex = hex_payload[2:10]
+
+        uid_badge = filtered_hex.upper()
 
         print("UID Badge recu :", filtered_hex)
         
