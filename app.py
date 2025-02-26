@@ -1,6 +1,7 @@
-from flask import Flask, session, request, jsonify, render_template, redirect, url_for, request, flash
+from flask import Flask, session, jsonify, render_template, redirect, url_for, request, flash
 from flask_socketio import SocketIO, emit
 import logging
+import requests
 from functools import wraps
 from appwrite.client import Client
 from appwrite.services.account import Account
@@ -207,7 +208,7 @@ def ttn_webhook():
 
         print("UID Badge recu :", filtered_hex)
         
-        code()
+        sendCode()
 
         # Retourner uniquement frm_payload
         return jsonify({"frm_payload": frm_payload}), 200
@@ -225,17 +226,19 @@ def code():
     chaine = ''.join(map(str, code))
     code = int(chaine)
     print("Code généré :", code)
+    code = str(code)
     return code
 
 def sendCode():
     codeToSend = code()
     print(f"Envoi du code {codeToSend}")
     socketio.emit("code", {"number": codeToSend})
-
-sendCode()
+    print("code envoyé")
+        
+threading.Thread(target=sendCode, daemon=True).start()
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    socketio.run(app, debug=True, host='0.0.0.0', port=5000)
 
 
     
