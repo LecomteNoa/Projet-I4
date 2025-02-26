@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secura-UID</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='uid.css') }}">
+    <meta http-equiv="refresh" content="3">
+</head>
+<body>
+    <div class="scan-message">
+        <h1>Scannez votre badge</h1>
+    </div>
+    <div class="uid.message">
+        {% if uid %}
+            <p>UID du badge : {{ uid }}</p>
+        {% else %}
+            <p>Scannez votre badge pour obtenir votre UID</p>
+        {% endif %}
+    </div>
+    <a href="{{ url_for('logout') }}" class="logout-btn">Déconnexion</a>
+    <a href="{{ url_for('menu') }}" class="menu-btn">Menu</a>
+</body>
+</html>
