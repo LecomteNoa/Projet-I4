@@ -1,4 +1,5 @@
 from flask import Flask, session, request, jsonify, render_template, redirect, url_for, request, flash
+from flask_socketio import SocketIO, emit
 import logging
 from functools import wraps
 from appwrite.client import Client
@@ -23,6 +24,7 @@ import random
 load_dotenv()
 
 app = Flask(__name__)
+socketio = SocketIO(app, cors_allowed_origins="*")
 app.secret_key = os.getenv("FLASK_SECRET_KEY")
 
 # Configuration de Appwrite
@@ -219,6 +221,11 @@ def code():
     code = int(chaine)
     print("Code généré :", code)
     return code
+
+def sendCode():
+    codeToSend = code()
+    print(f"Envoi du code {codeToSend}")
+    socketio.emit("code", {"number": codeToSend})
 
 
 if __name__ == '__main__':
