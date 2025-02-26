@@ -227,6 +227,7 @@ def sendCode():
     print(f"Envoi du code {codeToSend}")
     socketio.emit("code", {"number": codeToSend})
 
+sendCode()
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
